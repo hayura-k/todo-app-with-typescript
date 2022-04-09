@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState, VFC } from 'react';
+import { MemeList } from './components/MemoList';
 
-function App() {
+export const App: VFC = () => {
+  const [text, setText] = useState<string>('');
+  // genericsで型定義
+  const [memos, setMemos] = useState<string[]>([]);
+
+  console.log(text)
+  console.log(memos)
+  const onClickAdd = () => {
+    setMemos([...memos, text])
+    setText('')
+  }
+
+  const onChangeText = (e: any) => {
+    setText(e.target.value)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>簡単メモアプリ</h1>
+      <input type='text' value={text} onChange={onChangeText} />
+      <button onClick={onClickAdd}>追加</button>
+      <ul>
+        {memos.map((memo) =>
+          <li>{memo}</li>
+        )}
+      </ul>
+    </>
   );
 }
-
-export default App;
